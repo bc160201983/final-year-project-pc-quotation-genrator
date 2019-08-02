@@ -41,7 +41,7 @@
                     <th>Category</th>
                     <th>Brand</th>
                     <th>Image</th>
-                    <th>Discription</th>
+                   
                     <th>Price</th>
                     <th>Status</th>
                     <td>Action</td>
@@ -53,51 +53,71 @@
                     <th>Title</th>
                     <th>Category</th>
                     <th>Brand</th>
-                    <th>Image</th>
-                    <th>Discription</th>
+                    <th>Image</th>                    
                     <th>Price</th>
                     <th>Status</th>
                     <td>Action</td>
                   </tr>
                 </tfoot>
-                <?php
+                
+                <tbody>
+                  <?php
 
                   $result = get_all_items();
                   if (!$result) {
                     die("Query Failed" . mysqli_error($conn));
                   }else{
                     while ($row = mysqli_fetch_assoc($result)) {
-                        print_r($row);  
+                        $id = $row['item_id'];
+                        $title = $row['item_title'];
+                        $cat_id = $row['cat_id'];
+                        $brand_id = $row['man_id'];
+                        $image = $row['image'];
+                        $price = $row['price'];
+                        $status = $row['status'];
+                        //print_r($row);  
+                  ?>
 
+                    <tr>
+                    <td><?php echo $id; ?></td>
+                    <td><?php echo substr($title, 0, 53); ?></td>
+                    <td><?php
+                            $catData = get_gategory_by_id_fetch($cat_id);
+                            echo $catData['cat_name'];
+                     ?></td>
+                    <td><?php
+                    $brandData = get_brand_by_id_fetch($brand_id);
+                            echo $brandData['name']; 
+                    
+                    ?></td>
+                    <td><?php 
+                    $imageArray =  explode(",", $image);
+                    echo '<img src="images/'.$imageArray[0].'" alt="" height="42" width="42">';
+                    //print_r($imageArray); 
+                    ?></td> 
+                    <td><?php echo "<strong>Rs.</strong>" . number_format($price); ?></td>
+                    <td><?php echo $status; ?></td>
+                    <td>
+                      
+                      <a href="items.php?source=edit_item&id=<?php echo $id ?>" class="btn btn-primary">EDIT</a>|
+                      <a href="#" class="btn btn-danger">DELETE</a>
+                    </td>
+                  </tr>
 
+                  <?php
                     }
                   }
 
 
                 ?>
-                <tbody>
-                  <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                    <td>2011/04/25</td>
-                    <td>$320,800</td>
-                    <td>55555555</td>
-                    <td>Publish</td>
-                    <td>
-                      
-                      <a href="#" class="btn btn-primary">EDIT</a>|
-                      <a href="#" class="btn btn-danger">DELETE</a>
-                    </td>
-                  </tr>
+                  
                   
                  
                 </tbody>
               </table>
             </div>
           </div>
-          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          <div class="card-footer small text-muted"><!-- Updated yesterday at 11:59 PM --></div>
         </div>
 
 

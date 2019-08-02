@@ -15,7 +15,7 @@ $errors = array();
 $success = array();
 $allowTypes = array('jpg','png','jpeg','gif');
 $target_dir = "images/";
-if (isset($_POST['btn-submit'])) {
+if (isset($_POST['update-submit'])) {
       $title = escape_string($_POST['title']);
       $cat_id = escape_string($_POST['item_cat']);
       $brand_id = escape_string($_POST['item_brand']);
@@ -64,24 +64,16 @@ if (isset($_POST['btn-submit'])) {
 
               }
             }
-          //print_r($image_names);
-        
-          // $image_names = upload_image($image);
-          // print_r($image_names);
-        // $sql = "INSERT INTO `items`(`item_title`, `cat_id`, `man_id`, `image`, `description`, `price`, `status`) ";
-        // $sql .="VALUES ('".$title."', ".$cat_id.", ".$brand_id.", '".$image_names."', '".$description."', ".$price.", '".$status."')";
-        //   $result =  mysqli_query($conn, $sql);
-        //   if (!$result) {
-        //     $errors[] = die("Query Failed " . mysqli_error($conn));
-            
-            
-        //   }else{
-        //     $errors[] =  "Item Inserted successfully";
-        //   }
       }
 }
 
+if (isset($_GET['id'])) {
+  $item_edit_id = $_GET['id'];
 
+  $item_by_id = get_items_by_id($item_edit_id);
+  print_r($item_by_id);
+  
+}
 ?>
 
 <body id="page-top">
@@ -228,7 +220,7 @@ if (isset($_POST['btn-submit'])) {
       </select>
   </div>
   <div class="form-group">
-    <input type="submit" class="form-control btn btn-primary" name="btn-submit" id="submit" value=" submit">
+    <input type="submit" class="form-control btn btn-primary" name="update-submit" id="submit" value="Update">
   </div>
   </div>
 </div>

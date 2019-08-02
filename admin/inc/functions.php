@@ -41,6 +41,30 @@ function get_gategory_by_id($id){
 
 }
 
+function get_gategory_by_id_fetch($id){
+	global $conn;
+	$data = array();
+
+	$query = "SELECT * FROM categories WHERE cat_id=".$id." ";
+	$result = mysqli_query($conn,$query);
+
+	confirm_query($result);
+	while ($row = mysqli_fetch_assoc($result)) {
+		$data = $row;
+	}
+
+	return $data;
+
+}
+
+
+function confirm_query($result){
+	global $conn;
+	if (!$result) {
+		die(mysqli_error($conn));
+	}
+}
+
 function update_category($id, $title){
 	global $conn;
 
@@ -112,6 +136,21 @@ function get_brand_by_id($id){
 
 }
 
+function get_brand_by_id_fetch($id){
+	global $conn;
+	$data = array();
+
+	$query = "SELECT * FROM `manufacturer` WHERE id=".$id." ";
+	$result = mysqli_query($conn,$query);
+	confirm_query($result);
+	while ($row = mysqli_fetch_assoc($result)) {
+		$data = $row;
+	}
+
+	return $data;
+
+}
+
 
 function update_brand($id, $title){
 	global $conn;
@@ -176,6 +215,19 @@ function get_all_items(){
 	$result = mysqli_query($conn, $sql);
 	return $result;
 }
+function get_items_by_id($id){
+	global $conn;
+	$data = array();
+	$sql = "SELECT * FROM items WHERE item_id = ".$id."";
+	$result = mysqli_query($conn, $sql);
+	confirm_query($result);
+	while ($row = mysqli_fetch_assoc($result)) {
+		$data = $row;
+	}
+
+	return $data;
+}
+	
 
 
 

@@ -12,7 +12,9 @@ switch ($source) {
   case 'add_item':
     include 'inc/add_item.php';
     break;
-  
+  case 'edit_item':
+  	include 'inc/edit_item.php';
+  	break;
   default:
     include 'inc/view_all_items.php';
     break;

@@ -2,6 +2,12 @@
 
 
 <?php
+
+
+if (isset($_GET['id'])) {
+  $item_edit_id = escape_string(trim($_GET['id']));
+}
+
 $title = "";
 $cat_id = "";
 $brand_id = "";
@@ -19,61 +25,52 @@ if (isset($_POST['update-submit'])) {
       $title = escape_string($_POST['title']);
       $cat_id = escape_string($_POST['item_cat']);
       $brand_id = escape_string($_POST['item_brand']);
-      // if (isset($_FILES['images']['name'])) {
-      //     $image = $_FILES['images']['name'];
-      // }else{
-      //   $image = "";
-      // }
       $description = htmlspecialchars(trim($_POST['item_description']));
       $price = escape_string($_POST['item_price']);
       $status = escape_string($_POST['status']);
       $image_names = $_FILES['images']['name'];
+      if (empty($image_names)) {
+        $sql = "SELECT * FROM items WHERE item_id=".$item_edit_id."";
+        $select_image = mysqli_query($conn, $sql);
+        while ($row = mysqli_fetch_assoc($select_image)) {
+            $image_names = $row['image'];
+        }
+      }
       
-    if (empty($title) || empty($cat_id) || empty($brand_id) || empty($image_names[0]) || empty($description) || empty($price) || empty($status)) {
+      
+    if (empty($title) || empty($cat_id) || empty($brand_id) || empty($image_names) || empty($description) || empty($price) || empty($status)) {
           $errors[] = "Fill the required Fields";
       }else{
-            $imageNameString = implode(",", $image_names);
-            if (count($image_names) > 5) {
-              $errors[] = "files can not be greater then 5";
-            }else{
-              for ($i=0; $i <count($_FILES['images']['name']); $i++) {
-                    if ($_FILES['images']['size'][$i] > 5000000) {
-                       $errors[] = "file size must be less then 5mb";
-                     }else{
-                      $filename = basename($_FILES['images']['name'][$i]);
-                      $targetFilePath = $target_dir . $filename;
-                      $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-                      if (in_array($fileType, $allowTypes)) {
-                        if (move_uploaded_file($_FILES['images']['tmp_name'][$i], $targetFilePath)) {
-                            $result = insert_item($title, $cat_id, $brand_id, $imageNameString, $description, $price, $status);
-                              if (!$result) {
-                                  $errors[] = die("Query Failed " . mysqli_error($conn));                                  
-                                }else{
-                                  $success[] = "Item Inserted successfully";
-                                }
-                            break;
-                        }else{
-                          $errors[] = "Upload Failed";
-                          break;
-                        }
-                      }else{
-                        $errors[] = "You can only upload image Type 'jpg','png','jpeg','gif'";
-                        break;
-                  }
-                } 
-
-              }
-            }
+                     
+                              $targetFilePath = $target_dir . $image_names;
+                  
+                              move_uploaded_file($_FILES['images']['tmp_name'], $targetFilePath);
+                              $result = updated_item($item_edit_id,$title, $cat_id, $brand_id, $image_names, $description, $price, $status);
+                                if (!$result) {
+                                    $errors[] = die("Query Failed " . mysqli_error($conn));                                  
+                                  }else{
+                                    $success[] = "Item Updated";
+                                  }
+                       
+                      
       }
 }
 
-if (isset($_GET['id'])) {
-  $item_edit_id = $_GET['id'];
 
-  $item_by_id = get_items_by_id($item_edit_id);
-  print_r($item_by_id);
+  $row = get_items_by_id($item_edit_id);
+
+    $id = $row['item_id'];
+    $title = $row['item_title'];
+    $edit_cat_id = $row['cat_id'];
+    $edit_brand_id = $row['man_id'];
+    $description = $row['description'];
+    $imageNames = $row['image'];
+    $price = $row['price'];
+    $status = $row['status'];
+
   
-}
+  
+
 ?>
 
 <body id="page-top">
@@ -97,7 +94,7 @@ if (isset($_GET['id'])) {
            <li class="breadcrumb-item">
             <a href="items.php">Items</a>
           </li>
-          <li class="breadcrumb-item active">Add Items</li>
+          <li class="breadcrumb-item active">Edit Items</li>
         </ol>
 
 <div class="container">
@@ -140,7 +137,9 @@ if (isset($_GET['id'])) {
                 $cat_id = $row['cat_id'];
                 $cat_name = $row['cat_name'];           
           ?>               
-                <option value='<?php echo $cat_id ?>'><?php echo $cat_name ?></option>
+                <option <?php if ($cat_id == $edit_cat_id) {
+                  echo "selected";
+                } ?> value='<?php echo $cat_id ?>'><?php echo $cat_name ?></option>
               <?php
               }
               }
@@ -163,7 +162,7 @@ if (isset($_GET['id'])) {
                     $brand_name = $row['name'];
               ?>
                 
-                <option value='<?php echo $brand_id; ?>'><?php echo $brand_name ?></option>
+                <option <?php if($brand_id == $edit_brand_id){echo "selected";} ?> value='<?php echo $brand_id; ?>'><?php echo $brand_name ?></option>
                 <?php
                 }
                 }
@@ -183,9 +182,16 @@ if (isset($_GET['id'])) {
   <div class="card-body text-dark">
     
     <div class="form-group">
-    <input type="file" class="form-control" multiple="" name="images[]" id="images" value="Select Images">
-    <span id="error_multiple_files"></span>
-</div>
+
+    <input type="file" class="form-control" multiple="" name="images" id="images" value="Select Images">  
+    </div>
+    <?php
+       
+        
+          echo '<img src="images/'.$imageNames.'" height="100" width="100">';
+        
+    ?>
+     
   </div>
 </div>
 <div class="card border-dark mb-3" style="max-width: 18rem;">

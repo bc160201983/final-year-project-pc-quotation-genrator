@@ -19,65 +19,36 @@ if (isset($_POST['btn-submit'])) {
       $title = escape_string($_POST['title']);
       $cat_id = escape_string($_POST['item_cat']);
       $brand_id = escape_string($_POST['item_brand']);
-      // if (isset($_FILES['images']['name'])) {
-      //     $image = $_FILES['images']['name'];
-      // }else{
-      //   $image = "";
-      // }
       $description = htmlspecialchars(trim($_POST['item_description']));
       $price = escape_string($_POST['item_price']);
       $status = escape_string($_POST['status']);
       $image_names = $_FILES['images']['name'];
       
-    if (empty($title) || empty($cat_id) || empty($brand_id) || empty($image_names[0]) || empty($description) || empty($price) || empty($status)) {
+    if (empty($title) || empty($cat_id) || empty($brand_id) || empty($image_names) || empty($description) || empty($price) || empty($status)) {
           $errors[] = "Fill the required Fields";
       }else{
-            $imageNameString = implode(",", $image_names);
-            if (count($image_names) > 5) {
-              $errors[] = "files can not be greater then 5";
-            }else{
-              for ($i=0; $i <count($_FILES['images']['name']); $i++) {
-                    if ($_FILES['images']['size'][$i] > 5000000) {
-                       $errors[] = "file size must be less then 5mb";
-                     }else{
-                      $filename = basename($_FILES['images']['name'][$i]);
+
+                      $filename = basename($_FILES['images']['name']);
                       $targetFilePath = $target_dir . $filename;
                       $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
                       if (in_array($fileType, $allowTypes)) {
-                        if (move_uploaded_file($_FILES['images']['tmp_name'][$i], $targetFilePath)) {
-                            $result = insert_item($title, $cat_id, $brand_id, $imageNameString, $description, $price, $status);
+                        if (move_uploaded_file($_FILES['images']['tmp_name'], $targetFilePath)) {
+                            $result = insert_item($title, $cat_id, $brand_id, $image_names, $description, $price, $status);
                               if (!$result) {
                                   $errors[] = die("Query Failed " . mysqli_error($conn));                                  
                                 }else{
                                   $success[] = "Item Inserted successfully";
                                 }
-                            break;
                         }else{
                           $errors[] = "Upload Failed";
-                          break;
+                         
                         }
                       }else{
                         $errors[] = "You can only upload image Type 'jpg','png','jpeg','gif'";
-                        break;
+                        
                   }
-                } 
 
-              }
-            }
-          //print_r($image_names);
-        
-          // $image_names = upload_image($image);
-          // print_r($image_names);
-        // $sql = "INSERT INTO `items`(`item_title`, `cat_id`, `man_id`, `image`, `description`, `price`, `status`) ";
-        // $sql .="VALUES ('".$title."', ".$cat_id.", ".$brand_id.", '".$image_names."', '".$description."', ".$price.", '".$status."')";
-        //   $result =  mysqli_query($conn, $sql);
-        //   if (!$result) {
-        //     $errors[] = die("Query Failed " . mysqli_error($conn));
-            
-            
-        //   }else{
-        //     $errors[] =  "Item Inserted successfully";
-        //   }
+
       }
 }
 
@@ -191,7 +162,7 @@ if (isset($_POST['btn-submit'])) {
   <div class="card-body text-dark">
     
     <div class="form-group">
-    <input type="file" class="form-control" multiple="" name="images[]" id="images" value="Select Images">
+    <input type="file" class="form-control" multiple="" name="images" id="images" value="Select Images">
     <span id="error_multiple_files"></span>
 </div>
   </div>

@@ -91,8 +91,8 @@
                     
                     ?></td>
                     <td><?php 
-                    $imageArray =  explode(",", $image);
-                    echo '<img src="images/'.$imageArray[0].'" alt="" height="42" width="42">';
+                   
+                    echo '<img src="images/'.$image.'" alt="" height="42" width="42">';
                     //print_r($imageArray); 
                     ?></td> 
                     <td><?php echo "<strong>Rs.</strong>" . number_format($price); ?></td>
@@ -121,7 +121,11 @@
         </div>
 
 
-
+<script type="text/javascript">
+  $(document).ready( function () {
+    $('#dataTable').DataTable();
+} );
+</script>
 
 
 

@@ -35,7 +35,7 @@ function get_gategory_by_id($id){
 
 	$query = "SELECT * FROM categories WHERE cat_id=".$id." ";
 	$result = mysqli_query($conn,$query);
-
+	confirm_query($result);
 
 	return $result;
 
@@ -192,6 +192,14 @@ function total_items(){
 	return $result;
 }
 
+function total_items_by_category($cat_id){
+	global $conn;
+
+	$sql = "SELECT count(*) as totalItems FROM items WHERE cat_id=".$cat_id."";
+	$result = mysqli_query($conn, $sql);
+	return $result;
+}
+
 function get_total_items(){
 	global $conn;
 
@@ -226,6 +234,29 @@ function get_items_by_id($id){
 	}
 
 	return $data;
+}
+
+function get_items_by_cat_id($cat_id){
+	global $conn;
+
+	$sql = "SELECT * FROM items WHERE cat_id = ".$cat_id."";
+	$result = mysqli_query($conn, $sql);
+	confirm_query($result);
+	
+
+	return $result;
+}
+
+
+
+
+function updated_item($id, $title, $cat_id, $brand_id, $image, $description, $price, $status){
+	global $conn;
+	$sql = "UPDATE `items` SET `item_title`='".$title."',`cat_id`=".$cat_id.",`man_id`=".$brand_id.",`image`='".$image."', ";
+	 $sql .= "`description`='".$description."',`price`=".$price.",`status`='".$status."' WHERE item_id=".$id."";
+	$result =  mysqli_query($conn, $sql);
+	//confirm_query($result);
+	return $result;
 }
 	
 

@@ -57,8 +57,8 @@
   <script src="js/sb-admin.min.js"></script>
 
   <!-- Demo scripts for this page-->
-<!--   <script src="js/demo/datatables-demo.js"></script>
-  <script src="js/demo/chart-area-demo.js"></script> -->
+  <script src="js/demo/datatables-demo.js"></script>
+  <!-- <script src="js/demo/chart-area-demo.js"></script> -->
 
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/js/fileinput.js" type="text/javascript"></script>

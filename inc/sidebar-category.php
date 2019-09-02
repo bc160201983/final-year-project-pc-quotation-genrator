@@ -67,20 +67,6 @@
 						</form>
 					</div>
 					<div class="common-filter">
-						<div class="head">Color</div>
-						<form action="#">
-							<ul>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="black" name="color"><label for="black">Black<span>(29)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="balckleather" name="color"><label for="balckleather">Black
-										Leather<span>(29)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="blackred" name="color"><label for="blackred">Black
-										with red<span>(19)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="gold" name="color"><label for="gold">Gold<span>(19)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="spacegrey" name="color"><label for="spacegrey">Spacegrey<span>(19)</span></label></li>
-							</ul>
-						</form>
-					</div>
-					<div class="common-filter">
 						<div class="head">Price</div>
 						<div class="price-range-area">
 							<div id="price-range"></div>
@@ -98,19 +84,21 @@
 			</div>
 			<div class="col-xl-9 col-lg-8 col-md-7">
 				<!-- Start Filter Bar -->
+				<form id="filter-form">
 				<div class="filter-bar d-flex flex-wrap align-items-center">
 					<div class="sorting">
-						<select>
-							<option value="1">Default sorting</option>
-							<option value="1">Default sorting</option>
-							<option value="1">Default sorting</option>
+						<select name="sort-filter" id="op-filter">
+							<option value="1">Default Sorting</option>
+							<option value="1">Sort By Latest</option>
+							<option value="ASEN">Sort By Price: Low to High</option>
+							<option value="DSEN">Sort By Price: High to Low</option>
 						</select>
 					</div>
 					<div class="sorting mr-auto">
-						<select>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
+						<select name="show-data" id="show-data">
+							<option value="1">Show 10</option>
+							<option value="1">Show 20</option>
+							<option value="1">Show 30</option>
 						</select>
 					</div>
 					<div class="pagination">
@@ -123,6 +111,7 @@
 						<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
 					</div>
 				</div>
+			</form>
 				<!-- End Filter Bar -->
 				<!-- Start Best Seller -->
 				<section class="lattest-product-area pb-40 category-list">
@@ -224,3 +213,15 @@
 			</div>
 		</div>
 	</div>
+<script type="text/javascript">
+	$(document).ready(function(event){
+		event.preventDefault();
+		$("#op-filter").change(function(){
+			$("#filter-form").submit();
+			//alert("Bilal");
+		});
+
+		$("#show-data").
+		//alert("Hello");
+	});
+</script>

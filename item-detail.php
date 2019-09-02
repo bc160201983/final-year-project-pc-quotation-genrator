@@ -25,7 +25,7 @@
 				<div class="col-first">
 					<h1>Product Details Page</h1>
 					<nav class="d-flex align-items-center">
-						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a href="category.php">Shop<span class="lnr lnr-arrow-right"></span></a>
 						<a href="item-detail.php?id=<?php echo $item_id; ?>">product-details</a>
 					</nav>

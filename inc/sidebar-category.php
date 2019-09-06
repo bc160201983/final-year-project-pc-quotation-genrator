@@ -56,7 +56,7 @@
 											$brand_id = $row['id'];
 											$brand_title = $row['name'];
 									?>
-										<li class="filter-list"><input value="<?php echo $brand_id; ?>" class="pixel-radio" type="radio" id="apple" name="brand"><label for="apple"><?php echo $brand_title; ?></label></li>
+										<li class="filter-list"><input value="<?php echo $brand_id; ?>" class="pixel-radio brands" type="radio"  name="brand"><label for="apple"><?php echo $brand_title; ?></label></li>
 
 									<?php
 										}
@@ -87,7 +87,7 @@
 				<form id="filter-form">
 				<div class="filter-bar d-flex flex-wrap align-items-center">
 					<div class="sorting">
-						<select name="sort-filter" id="op-filter">
+						<select name="sort-filter" id="option-filter">
 							<option value="1">Default Sorting</option>
 							<option value="1">Sort By Latest</option>
 							<option value="ASEN">Sort By Price: Low to High</option>
@@ -101,6 +101,7 @@
 							<option value="1">Show 30</option>
 						</select>
 					</div>
+					</form>
 					<div class="pagination">
 						<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
 						<a href="#" class="active">1</a>
@@ -111,11 +112,11 @@
 						<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
 					</div>
 				</div>
-			</form>
+			
 				<!-- End Filter Bar -->
 				<!-- Start Best Seller -->
 				<section class="lattest-product-area pb-40 category-list">
-					<div class="row">
+					<div class="row" id="output">
 						<!-- single product -->
 						<?php
 							if (isset($_GET['id'])) {
@@ -214,14 +215,40 @@
 		</div>
 	</div>
 <script type="text/javascript">
-	$(document).ready(function(event){
-		event.preventDefault();
-		$("#op-filter").change(function(){
-			$("#filter-form").submit();
-			//alert("Bilal");
+	$(document).ready(function(){
+		
+		var brands = "";
+
+		$("input:radio[name=brand]").click(function(){
+			brands = $("input:radio[name=brand]:checked").val();
+			sort_data(brands);
 		});
 
-		$("#show-data").
-		//alert("Hello");
+
 	});
+
+	//sort data function
+	function sort_data(brand_id){
+
+		// $.post("inc/sort_data.php", {brand:brand_id}, function(data, status){
+		// 	var parse = JSON.parse(data);
+		// 	console.log(parse);
+		// });
+		$.ajax({  
+                url:"inc/sort_data.php",  
+                method:"POST", 
+                data:{brand:brand_id},  
+                success:function(data){
+                	//var jsonBody = JSON.parse(data);
+                	console.log(data);
+                	if (data == "") {
+                		$("#output").html("<center><h3>No Data Found</h3></center>");
+                	}else{
+                		$("#output").html(data);
+                	}
+
+                	
+                }  
+           });
+	}
 </script>

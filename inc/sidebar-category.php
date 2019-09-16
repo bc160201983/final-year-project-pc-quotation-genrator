@@ -8,11 +8,17 @@
 		}
 
 	</style>
+
+	<?php
+
+
+	?>
 	<div class="container" style="margin-bottom: 50px;">
 		<div class="row">
 			<div class="col-xl-3 col-lg-4 col-md-5">
 				<div class="sidebar-categories">
 					<div class="head">Browse Categories</div>
+					
 					<ul class="main-categories">
 	
 							<?php
@@ -27,7 +33,7 @@
 						  				$cat_title = $row['cat_name'];
 						  			
 						  		?>
-								  <li class="main-nav-list"><a href="category.php?id=<?php echo $cat_id; ?>" aria-expanded="false" aria-controls="beauttyProduct"><span
+								<li class="main-nav-list"><a href="category.php?id=<?php echo $cat_id; ?>" aria-expanded="false" aria-controls="beauttyProduct"><span
 										 class="lnr lnr-arrow-right"></span><?php echo $cat_title; ?><span class="number">
 										 	
 										 </span></a>
@@ -41,11 +47,12 @@
 			
 					</ul>
 				</div>
+				
 				<div class="sidebar-filter mt-50">
 					<div class="top-filter-head">Product Filters</div>
 					<div class="common-filter">
 						<div class="head">Brands</div>
-						<form action="#">
+						
 							<ul>
 								<?php
 									$result = get_all_brands();
@@ -56,7 +63,7 @@
 											$brand_id = $row['id'];
 											$brand_title = $row['name'];
 									?>
-										<li class="filter-list"><input value="<?php echo $brand_id; ?>" class="pixel-radio brands" type="radio"  name="brand"><label for="apple"><?php echo $brand_title; ?></label></li>
+										<li class="filter-list"><label><input value="<?php echo $brand_id; ?>" class="pixel-radio brands" type="radio" name="brand_id"><?php echo $brand_title; ?></label></li>
 
 									<?php
 										}
@@ -64,41 +71,28 @@
 								?>
 								
 							</ul>
-						</form>
+				
 					</div>
-					<div class="common-filter">
-						<div class="head">Price</div>
-						<div class="price-range-area">
-							<div id="price-range"></div>
-							<div class="value-wrapper d-flex">
-								<div class="price">Price:</div>
-								<span>$</span>
-								<div id="lower-value"></div>
-								<div class="to">to</div>
-								<span>$</span>
-								<div id="upper-value"></div>
-							</div>
-						</div>
+					 <input type="text" class="js-range-slider" name="my_range" value="" />
+
+					<div style="margin-top: inherit;"  class="common-filter">
+						<!-- <div class="head">Filter</div> -->
+						<input id="filter" type="submit" value="Filter" name="submit" class="btn btn-primary btn-block">
 					</div>
+					
 				</div>
+			
 			</div>
 			<div class="col-xl-9 col-lg-8 col-md-7">
 				<!-- Start Filter Bar -->
-				<form id="filter-form">
+				<form class="filter-form">
 				<div class="filter-bar d-flex flex-wrap align-items-center">
-					<div class="sorting">
-						<select name="sort-filter" id="option-filter">
-							<option value="1">Default Sorting</option>
-							<option value="1">Sort By Latest</option>
-							<option value="ASEN">Sort By Price: Low to High</option>
-							<option value="DSEN">Sort By Price: High to Low</option>
-						</select>
-					</div>
+					
 					<div class="sorting mr-auto">
-						<select name="show-data" id="show-data">
-							<option value="1">Show 10</option>
-							<option value="1">Show 20</option>
-							<option value="1">Show 30</option>
+						<select name="show-data" id="limit-data">
+							<option value="10">Show 10</option>
+							<option value="20">Show 20</option>
+							<option value="30">Show 30</option>
 						</select>
 					</div>
 					</form>
@@ -125,6 +119,9 @@
 										if (!$result) {
 												die("Query Failed" . mysqli_error($conn));
 											}else{
+												$rowCount = mysqli_num_rows($result);
+												if ($rowCount > 0) {
+			
 												while ($row = mysqli_fetch_assoc($result)) {
 													$id = $row['item_id'];
 								                        $title = $row['item_title'];
@@ -154,10 +151,13 @@
 								                 <?php
 
 												}
+												}else{
+													echo "<h3>No Data Found</h3>";
+												}
 											}	
 
 							}else{
-								$result = get_all_items();
+								$result = get_all_items_by_publish();
 				                  if (!$result) {
 				                    die("Query Failed" . mysqli_error($conn));
 				                  }else{
@@ -215,40 +215,52 @@
 		</div>
 	</div>
 <script type="text/javascript">
-	$(document).ready(function(){
-		
-		var brands = "";
-
-		$("input:radio[name=brand]").click(function(){
-			brands = $("input:radio[name=brand]:checked").val();
-			sort_data(brands);
-		});
+$(document).ready(function(){
 
 
+
+	let my_range = $(".js-range-slider").ionRangeSlider({
+		type: "double",
+        grid: true,
+        min: 0,
+        max: 200000,
+        from: 2000,
+        to: 100000,
+        prefix: "Rs",
+        skin: "round",
 	});
 
-	//sort data function
-	function sort_data(brand_id){
+	var slider = $(".js-range-slider").data("ionRangeSlider");
+	//var 
+	
+	//let my_range = $(".js-range-slider").data("ionRangeSlider");
 
-		// $.post("inc/sort_data.php", {brand:brand_id}, function(data, status){
-		// 	var parse = JSON.parse(data);
-		// 	console.log(parse);
-		// });
-		$.ajax({  
-                url:"inc/sort_data.php",  
-                method:"POST", 
-                data:{brand:brand_id},  
-                success:function(data){
-                	//var jsonBody = JSON.parse(data);
-                	console.log(data);
-                	if (data == "") {
-                		$("#output").html("<center><h3>No Data Found</h3></center>");
-                	}else{
-                		$("#output").html(data);
-                	}
+		$(".brands").click(function(){
+			var brandVal = $("input[name='brand_id']:checked").val();
 
-                	
-                }  
-           });
-	}
+			$.post("inc/sort_data.php", {brandVal:brandVal}, function(data){
+				console.log(data);
+				if (data) {
+					$("#output").html(data);
+				}
+			});
+		});
+
+	$("#filter").click(function(){
+	
+	var from = slider.result.from;
+	var to = slider.result.to;
+
+
+		// console.log(from + " " + to +" " + brandVal);
+		// console.log("bilal");
+
+		$.post("inc/sort_data.php", {from:from, to:to}, function(data){
+				console.log(data);
+				if (data) {
+					$("#output").html(data);
+				}
+		});
+	});
+});
 </script>

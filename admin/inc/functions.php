@@ -223,6 +223,13 @@ function get_all_items(){
 	$result = mysqli_query($conn, $sql);
 	return $result;
 }
+function get_all_items_by_publish(){
+	global $conn;
+	$sql = "SELECT * FROM items WHERE status = 'publish'";
+	$result = mysqli_query($conn, $sql);
+	return $result;
+}
+
 function get_items_by_id($id){
 	global $conn;
 	$data = array();
@@ -239,7 +246,7 @@ function get_items_by_id($id){
 function get_items_by_cat_id($cat_id){
 	global $conn;
 
-	$sql = "SELECT * FROM items WHERE cat_id = ".$cat_id."";
+	$sql = "SELECT * FROM items WHERE cat_id = ".$cat_id." AND status = 'publish'";
 	$result = mysqli_query($conn, $sql);
 	confirm_query($result);
 	

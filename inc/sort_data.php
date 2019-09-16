@@ -1,12 +1,57 @@
 <?php
-include '../admin/inc/init.php';;
+include '../admin/inc/init.php';
 
-if (isset($_POST) && $_POST != "") {
+global $conn;
+//print_r($_POST);
+
+
+    //$whereSQL = $orderSQL = '';
+
+	if (isset($_POST['from']) && isset($_POST['to'])) {
+		$whereSQL = "WHERE price BETWEEN '".$_POST['from']."' AND '".$_POST['to']."' AND status='publish'";
+		$orderSQL = " ORDER BY price ASC ";
+
+		$sql = "SELECT * FROM items $whereSQL $orderSQL";
+		$result = mysqli_query($conn, $sql);
+		$rowCount = mysqli_num_rows($result);
+		if ($rowCount > 0) {
+			# code...
+
+			showData($result);
+
+		}else{
+	        echo '<center><h3>Product(s) not found</center></h3>';
+	    }
+	}
+
+	
+
+ if (isset($_POST['brandVal'])) {
+    	$whereSQL = "WHERE man_id=".$_POST['brandVal']." AND status='publish'";
+		$orderSQL = " ORDER BY price ASC ";
+
+		$sql = "SELECT * FROM items $whereSQL $orderSQL";
+		$result = mysqli_query($conn, $sql);
+		$rowCount = mysqli_num_rows($result);
+		if ($rowCount > 0) {
+			# code...
+
+			showData($result);
+
+		}else{
+	        echo '<center><h3>Product(s) not found</center></h3>';
+	    }
+    }
+
+   
 	
 
 
-	$sql = "SELECT * FROM items WHERE man_id = ".$_POST['brand']." AND status = 'publish'";
-	$result = mysqli_query($conn, $sql);
+	
+
+function showData($result)
+	{
+	
 	confirm_query($result);
 
 	while ($row = mysqli_fetch_assoc($result)) {
@@ -26,7 +71,8 @@ if (isset($_POST) && $_POST != "") {
 		echo $output;
 	}
 
+	}
 
-}
+
 
 ?>

@@ -41,30 +41,75 @@
 	<table class="table table-bordered">
   <thead>
     <tr>
-      <th class="table-primary" scope="col">NAME</th>
-      <th class="table-primary" scope="col">PRODUCTS</th>
+      <th class="table-primary" scope="col">Component</th>
+      <th class="table-primary" scope="col">Selection</th>
       <th class="table-primary" scope="col">QUANTITY</th>
       <th class="table-primary" scope="col">Per Item Price</th>
       <th class="table-primary" scope="col">Total Price</th>
     </tr>
   </thead>
+  <tfoot>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th class="table-primary" scope="col">Total Price</th>
+      <th class="table-primary" scope="col"></th>
+    </tr>
+  </tfoot>
   <tbody>
-  <tr>
-  	<td>Processor</td>
-  	<td><select>
-  		<option>PC</option>
+  	<?php
+
+  		$result  = get_all_categories();
+  		if (!empty($result)) {
+  			while ($row = mysqli_fetch_assoc($result)) {
+  				$cat_id = $row['cat_id'];
+  				$cat_name = $row['cat_name'];
+  			
+  		?>
+  	
+  	<tr>
+ 	
+  	<td><?php echo $cat_name; ?></td>
+  	<td>
+  		<select class="form-control">
+  			<option>~~ Select <?php echo $cat_name; ?> ~~</option>
+  	
+  	<?php
+  		$itemResult = get_items_by_cat_id($cat_id);
+  		$itemCount = mysqli_num_rows($itemResult);
+  		if ($itemCount > 0) {
+  			while ($itemRow = mysqli_fetch_assoc($itemResult)) {
+  				$items_id = $itemRow['item_id'];
+  				$items_title = $itemRow['item_title'];
+  		?>
+  				<option value="<?php echo $items_id; ?>"><?php echo substr($items_title,0, 50); ?></option>;
+  		<?php
+  			}
+  		}else{
+  			echo "<option>No Product avilabe</option>";
+  		}
+
+  	?>
   	</select>
-  </td>
-  <td><input class="form-control"c type="text" name=""></td>
-  <td><input class="form-control" type="text" name="" readonly></td>
-  <td><input class="form-control" type="text" name="" readonly></td>
-  </tr>
+
+  	<td><input class="form-control"c type="text" name=""></td>
+	  <td><input class="form-control" type="text" name="" readonly></td>
+	  <td><input class="form-control" type="text" name="" readonly></td>
+  	</td>
+</tr>
+	<?php
+  				}		
+  		}
+
+?>
+				
+  	
+
   </tbody>
 </table>
 	</div>
 
-
-	
 	
 
 	<?php include 'inc/footer.php'; ?>

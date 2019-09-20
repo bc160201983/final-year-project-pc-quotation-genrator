@@ -7,7 +7,7 @@ function get_all_categories(){
 
 	$query = "SELECT * FROM categories";
 	$result = mysqli_query($conn,$query);
-
+	confirm_query($result);
 
 	return $result;
 

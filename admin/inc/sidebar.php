@@ -20,6 +20,11 @@
           <i class="fa fa-list-alt"></i>
           <span>Manage Manufacturer</span></a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="reports.php">
+          <i class="fa fa-list-alt"></i>
+          <span>Manage Reports</span></a>
+      </li>
 
       
     </ul>

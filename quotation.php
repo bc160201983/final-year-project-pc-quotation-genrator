@@ -3,6 +3,29 @@
 	<!-- Start Header Area -->
 	<?php include 'inc/header-nav.php'; ?>
 	<!-- End Header Area -->
+<?php
+
+// $errors = array();
+
+// if (isset($_POST['btn'])) {
+// 	$username = $_POST['username'];
+// 	$email = $_POST['email'];
+// 	$date = $_POST['date'];
+// 	if (empty($username) || empty($email) || empty($date)) {
+// 		$errors[] = "Please fill the required fileds";
+// 	}else{
+		
+
+
+// 	}
+	
+	
+// }
+
+
+?>
+
+
 
 	<!-- Start Banner Area -->
 	<section class="banner-area organic-breadcrumb">
@@ -21,24 +44,29 @@
 	</section>
 	<!-- End Banner Area -->
 	<div style="margin-top: 20px;" class="container">
-		<center>
-		<form style="width: 500px;">
+		<?php
+			if (isset($errors)) {
+				foreach ($errors as $error) {
+					echo '<div style="width: fit-content;margin: 0px auto;display: block;margin-bottom: 10px;" class="alert alert-danger" role="alert">'.$error.'</div>';
+				}
+			}
+		?>
+		
+		<form method="post" action="receipt.php">
+			<div style="width: 500px;margin: 0px auto;display: block;">
 		  <div class="form-group">
 		    
-		    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name">
+		    <input type="text" class="form-control" id="name" name="username" aria-describedby="emailHelp" placeholder="Enter name">
 		  </div>
-		  <div class="form-group">
-		    
-		    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-		  </div>
-		  <div class="form-group">
-		    
-		    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Date">
-		  </div>
-		</form>
-	</center>
 
-	<table class="table table-bordered">
+
+		  <div class="form-group">
+		    
+		    <input type="date" class="form-control" id="datepicker" name="date">
+		  </div>
+		</div>
+
+	<table class="table table-bordered" id="productTable">
   <thead>
     <tr>
       <th class="table-primary" scope="col">Component</th>
@@ -54,7 +82,15 @@
       <th></th>
       <th></th>
       <th class="table-primary" scope="col">Total Price</th>
-      <th class="table-primary" scope="col"><input class="form-control" id="total" type="text" name="" readonly></th>
+      <th class="table-primary" scope="col"><input class="form-control" id="total" type="text" name="totalAmount" readonly></th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <!-- <th class="table-primary" scope="col">Total Price</th> -->
+      <th class="table-primary" scope="col"><input class="btn btn-primary" id="total" type="submit" name="btn"></th>
     </tr>
   </tfoot>
   <tbody>
@@ -66,15 +102,17 @@
   			while ($row = mysqli_fetch_assoc($result)) {
   				$cat_id = $row['cat_id'];
   				$cat_name = $row['cat_name'];
+  				
   			$r++;
   		?>
   	
-  	<tr>
+  	<tr id="row<?php echo $r; ?>">
+  		
  	
   	<td><?php echo $cat_name; ?></td>
   	<td>
-  		<select id="selectItems<?php echo $r; ?>" onchange="getProductData(<?php echo $r; ?>)">
-  			<option>~~ Select Item ~~</option>
+  		<select name="selectItems[]" id="selectItems<?php echo $r; ?>" onchange="getProductData(<?php echo $r; ?>)">
+  			<option selected='true' disabled='disabled'>~~ Select Item ~~</option>
   	
   	<?php
 
@@ -89,15 +127,16 @@
   		<?php
   			}
   		}else{
-  			echo "<option>No Product avilabe</option>";
+  			echo "<option selected='true' disabled='disabled'>No Product avilabe</option>";
   		}
 
   	?>
   	</select>
 
-  	<td><input class="form-control" id="qty<?php echo $r; ?>" type="number" name="" min="1"></td>
-	  <td><input class="form-control" id="price<?php echo $r; ?>" type="text" name="" readonly></td>
-	  <td><input class="form-control" id="totalPrice<?php echo $r; ?>" type="text" name="" readonly></td>
+  	<td><input onkeyup="getTotal(<?php echo $r; ?>)" class="form-control" id="qty<?php echo $r; ?>" type="number" name="qty[]" min="1"></td>
+	  <td><input class="form-control" id="price<?php echo $r; ?>" type="text" name="price[]" readonly></td>
+	  <td><input class="form-control" id="totalPrice<?php echo $r; ?>" type="text" name="totalPrice[]" readonly></td>
+
   	</td>
 </tr>
 	<?php
@@ -105,18 +144,24 @@
   		}
 
 ?>
-				
+		
   	
 
   </tbody>
 </table>
+</form>
+	
 	</div>
 
 	<script type="text/javascript">
+		$(document).ready(function(){
+			
+		});
+
 		function getProductData(row = null){
 				if (row) {
 					var item_id = $("#selectItems"+row).val();
-					console.log(item_id);
+					//console.log(item_id);
 					if (item_id == "") {
 						$("#qty"+row).val("");
 						$("#price"+row).val("");
@@ -129,30 +174,17 @@
 							data: {item_id : item_id},
 							dataType: 'json',
 							success:function(response){
-								console.log(response);
+								//console.log(response);
 
-								var totalArray = [];
+								//var totalArray = [];
 
 								$("#qty"+row).val(1);
 								$("#price"+row).val(response);
 								var total = Number(response) * 1;
 								total = total.toFixed(2);
 								$("#totalPrice"+row).val(total);
-
-								totalArray.push(total);
-								console.log(totalArray);
-
-								$("#total").val(total);
-
-
-								$("#qty"+row).keyup(function(){
-									var total = Number($("#price"+row).val()) * Number($("#qty"+row).val());
-									total = total.toFixed(2);
-									$("#totalPrice"+row).val(total);
-									$("#totalPrice"+row).val(total);;
-									
-								});
-
+								totalAmount();
+						
 								
 								
 							}
@@ -163,50 +195,36 @@
 			}
 
 			function getTotal(row = null){
-				var total = Number($("#price"+row).val()) * Number($("#qty"+row).val());
-				total = total.toFixed(2);
-				$("#totalPrice"+row).val(total);
+				if (row) {
+					var total = Number($("#price"+row).val()) * Number($("#qty"+row).val());
+					total = total.toFixed(2);
+					$("#totalPrice"+row).val(total);
+					totalAmount();
+				}else {
+					alert('no row !! please refresh the page');
+				}
+							
 			}
-		// 	}
-		// $(document).ready(function(){
-		// 	//var item_id_array = [];
-			
-		// 	// function getProductData(row = null){
-		// 	// 	if (row) {
-		// 	// 		var item_id = $("#selectItems"+row).val();
-		// 	// 		console.log(item_id);
-		// 	// 	}
-		// 	// }
 
-
-		// });
-
-
-		// function getItemInfo(id){
-		// 	//var dataArray = [];
-		// 	$.post('inc/get_item_info.php',{id:id},function(data){
-					
-					
-		// 		 if (data != "") {
+			function totalAmount(){
+				var tableProductLength = $("#productTable tbody tr").length;
 				
-					
-		// 			console.log(data);
-
-		// 		$("#price"+id).val(data);
-		// 		// 	$(".qty").keyup(function(){
-		// 		// 		numQty = parseInt($(this).val());
-		// 		// 		numPrice = parseInt(parseData.price);
-		// 		// 		var totalPrice = numQty * numPrice;
-		// 		// 		$("#totalPrice").val(totalPrice);
-		// 		// 		console.log(totalPrice + " " + numQty + " " + numPrice);
-		// 		// 	});
-		// 		// 	console.log(parseData.price);
-		// 		 }else{
-		// 		 	console.log("Error");
-		// 		 }
 				
-		// 	});
-		// }
+				totalAmountPrice = 0;
+				for(x = 0; x < tableProductLength; x++) {
+						var tr = $("#productTable tbody tr")[x];
+						var count = $(tr).attr('id');
+						count = count.substring(3);
+
+						totalAmountPrice = Number(totalAmountPrice) + Number($("#totalPrice"+count).val());
+					}
+
+					totalAmountPrice = totalAmountPrice.toFixed(2);
+					//console.log(totalAmountPrice);
+
+					$("#total").val(totalAmountPrice); 
+			}
+
 
 	</script>
 

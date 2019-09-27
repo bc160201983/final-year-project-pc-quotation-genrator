@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 01, 2019 at 04:50 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.4
+-- Generation Time: Sep 27, 2019 at 02:54 PM
+-- Server version: 10.1.40-MariaDB
+-- PHP Version: 7.3.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -38,9 +38,18 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`cat_id`, `cat_name`) VALUES
-(1, 'CPU'),
-(2, 'GPU'),
-(3, 'Laptop');
+(8, 'CPU'),
+(9, 'CPU Cooler'),
+(10, 'Motherboard'),
+(11, 'Memory'),
+(12, 'Storage'),
+(13, 'Video Card'),
+(14, 'Case'),
+(15, 'Power Supply'),
+(16, 'Optical Drive'),
+(17, 'Operating System'),
+(18, 'Software'),
+(19, 'Monitor');
 
 -- --------------------------------------------------------
 
@@ -66,7 +75,7 @@ CREATE TABLE `items` (
   `cat_id` int(11) NOT NULL,
   `man_id` int(11) NOT NULL,
   `image` varchar(500) NOT NULL,
-  `description` text NOT NULL,
+  `description` longtext NOT NULL,
   `price` int(11) NOT NULL,
   `status` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -76,14 +85,12 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`item_id`, `item_title`, `cat_id`, `man_id`, `image`, `description`, `price`, `status`) VALUES
-(1, 'AMD Ryzen 5 2600 Processor with Wraith Stealth Cooler - YD2600BBAFBOX', 1, 3, 'amd-ryzen.jpg', 'Higher performance. Incredible technology. Intelligent Ryzen™ processors just got even smarter.\r\n6 Cores / 12 Threads UNLOCKED\r\nPackage AM4\r\nMax Boost Clock 3.9GHz\r\n19MB of Combined Cache', 29000, 'draft'),
-(16, 'What is Lorem Ipsum?', 1, 2, 'newscan.jpeg', '<h2 style=\"box-sizing: border-box; margin: 0px 0px 10px; font-weight: 400; line-height: 24px; font-size: 24px; color: #212529; background-color: #ffffff; padding: 0px; font-family: DauphinPlain;\">What is Lorem Ipsum</h2>', 7777, 'draft'),
-(17, 'Asus ROG G531GT Gaming Laptop - 9th Gen Ci7 9750H - 8GB Memory - NVIDIA GeForce GTX 1650 GC - 512GB SSD - Windows 10 - 15.6\" FHD - Black', 3, 2, '58691971_2052429281725574_2186076798192713728_o.jpg', '&lt;div style=&quot;box-sizing: border-box; font-size: 12px; max-width: 100%; width: 800px; font-family: Roboto, sans-serif; color: #34495e; background-color: #ffffff;&quot;&gt;\r\n&lt;h4 style=&quot;box-sizing: border-box; font-family: inherit !important; font-weight: 300; line-height: 20px; color: inherit; margin: 0px; font-size: 16px; padding-bottom: 15px;&quot;&gt;Windows 10 operating system&lt;/h4&gt;\r\n&lt;p style=&quot;box-sizing: border-box; margin: 0px 0px 10px; font-family: inherit !important;&quot;&gt;Windows 10 brings back the Start Menu from Windows 7 and introduces new features, like the Edge Web browser that lets you markup Web pages on your screen.&lt;/p&gt;\r\n&lt;/div&gt;\r\n&lt;div style=&quot;box-sizing: border-box; font-size: 12px; max-width: 100%; width: 800px; font-family: Roboto, sans-serif; color: #34495e; background-color: #ffffff;&quot;&gt;\r\n&lt;h4 style=&quot;box-sizing: border-box; font-family: inherit !important; font-weight: 300; line-height: 20px; color: inherit; margin: 0px; font-size: 16px; padding-bottom: 15px;&quot;&gt;15.6&quot; Full HD display&lt;/h4&gt;\r\n&lt;p style=&quot;box-sizing: border-box; margin: 0px 0px 10px; font-family: inherit !important;&quot;&gt;The 1920 x 1080 resolution boasts impressive color and clarity. Energy-efficient LED backlight.&lt;/p&gt;\r\n&lt;/div&gt;\r\n&lt;div style=&quot;box-sizing: border-box; font-size: 12px; max-width: 100%; width: 800px; font-family: Roboto, sans-serif; color: #34495e; background-color: #ffffff;&quot;&gt;\r\n&lt;h4 style=&quot;box-sizing: border-box; font-family: inherit !important; font-weight: 300; line-height: 20px; color: inherit; margin: 0px; font-size: 16px; padding-bottom: 15px;&quot;&gt;9th Gen Intel&amp;reg; Core&amp;trade; i7-9750H mobile processor&lt;/h4&gt;\r\n&lt;p style=&quot;box-sizing: border-box; margin: 0px 0px 10px; font-family: inherit !important;&quot;&gt;Powerful 6-core, twelve-way processing performance.&lt;/p&gt;\r\n&lt;/div&gt;\r\n&lt;div style=&quot;box-sizing: border-box; font-size: 12px; max-width: 100%; width: 800px; font-family: Roboto, sans-serif; color: #34495e; background-color: #ffffff;&quot;&gt;\r\n&lt;h4 style=&quot;box-sizing: border-box; font-family: inherit !important; font-weight: 300; line-height: 20px; color: inherit; margin: 0px; font-size: 16px; padding-bottom: 15px;&quot;&gt;8GB system memory for advanced multitasking&lt;/h4&gt;\r\n&lt;p style=&quot;box-sizing: border-box; margin: 0px 0px 10px; font-family: inherit !important;&quot;&gt;Substantial high-bandwidth RAM to smoothly run your games and photo- and video-editing applications, as well as multiple programs and browser tabs all at once.&lt;/p&gt;\r\n&lt;/div&gt;\r\n&lt;div style=&quot;box-sizing: border-box; font-size: 12px; max-width: 100%; width: 800px; font-family: Roboto, sans-serif; color: #34495e; background-color: #ffffff;&quot;&gt;\r\n&lt;h4 style=&quot;box-sizing: border-box; font-family: inherit !important; font-weight: 300; line-height: 20px; color: inherit; margin: 0px; font-size: 16px; padding-bottom: 15px;&quot;&gt;512GB PCIe solid state drive&lt;/h4&gt;\r\n&lt;p style=&quot;box-sizing: border-box; margin: 0px 0px 10px; font-family: inherit !important;&quot;&gt;While offering less storage space than a hard drive, a flash-based SSD has no moving parts, resulting in faster start-up times and data access, no noise, and reduced heat production and power draw on the battery.&lt;/p&gt;\r\n&lt;/div&gt;\r\n&lt;div style=&quot;box-sizing: border-box; font-size: 12px; max-width: 100%; width: 800px; font-family: Roboto, sans-serif; color: #34495e; background-color: #ffffff;&quot;&gt;\r\n&lt;h4 style=&quot;box-sizing: border-box; font-family: inherit !important; font-weight: 300; line-height: 20px; color: inherit; margin: 0px; font-size: 16px; padding-bottom: 15px;&quot;&gt;NVIDIA GeForce GTX 1650 graphics&lt;/h4&gt;\r\n&lt;p style=&quot;box-sizing: border-box; margin: 0px 0px 10px; font-family: inherit !important;&quot;&gt;Backed by 4GB GDDR5 dedicated video memory for a fast, advanced GPU to fuel your games.&lt;/p&gt;\r\n&lt;/div&gt;\r\n&lt;div style=&quot;box-sizing: border-box; font-size: 12px; max-width: 100%; width: 800px; font-family: Roboto, sans-serif; color: #34495e; background-color: #ffffff;&quot;&gt;\r\n&lt;h4 style=&quot;box-sizing: border-box; font-family: inherit !important; font-weight: 300; line-height: 20px; color: inherit; margin: 0px; font-size: 16px; padding-bottom: 15px;&quot;&gt;Weighs 5.29 lbs. and measures 1&quot; thin&lt;/h4&gt;\r\n&lt;p style=&quot;box-sizing: border-box; margin: 0px 0px 10px; font-family: inherit !important;&quot;&gt;Thin and light design with DVD/CD drive omitted for improved portability. 3-cell lithium-ion battery.&lt;/p&gt;\r\n&lt;/div&gt;\r\n&lt;div style=&quot;box-sizing: border-box; font-size: 12px; max-width: 100%; width: 800px; font-family: Roboto, sans-serif; color: #34495e; background-color: #ffffff;&quot;&gt;\r\n&lt;h4 style=&quot;box-sizing: border-box; font-family: inherit !important; font-weight: 300; line-height: 20px; color: inherit; margin: 0px; font-size: 16px; padding-bottom: 15px;&quot;&gt;HDMI output expands your viewing options&lt;/h4&gt;\r\n&lt;p style=&quot;box-sizing: border-box; margin: 0px 0px 10px; font-family: inherit !important;&quot;&gt;Connect to an HDTV or high-def monitor to set up two screens side by side or just see more of the big picture.&lt;/p&gt;\r\n&lt;/div&gt;\r\n&lt;div style=&quot;box-sizing: border-box; font-size: 12px; max-width: 100%; width: 800px; font-family: Roboto, sans-serif; color: #34495e; background-color: #ffffff;&quot;&gt;\r\n&lt;h4 style=&quot;box-sizing: border-box; font-family: inherit !important; font-weight: 300; line-height: 20px; color: inherit; margin: 0px; font-size: 16px; padding-bottom: 15px;&quot;&gt;Next-generation wireless connectivity&lt;/h4&gt;\r\n&lt;p style=&quot;box-sizing: border-box; margin: 0px 0px 10px; font-family: inherit !important;&quot;&gt;Connects to your network or hotspots on all current Wi-Fi standards. Connect to a Wireless-AC router for speed nearly 3x faster than Wireless-N. The Gigabit Ethernet LAN port also plugs into wired networks.&lt;/p&gt;\r\n&lt;/div&gt;\r\n&lt;div style=&quot;box-sizing: border-box; font-size: 12px; max-width: 100%; width: 800px; font-family: Roboto, sans-serif; color: #34495e; background-color: #ffffff;&quot;&gt;\r\n&lt;h4 style=&quot;box-sizing: border-box; font-family: inherit !important; font-weight: 300; line-height: 20px; color: inherit; margin: 0px; font-size: 16px; padding-bottom: 15px;&quot;&gt;RGB backlit keyboard&lt;/h4&gt;\r\n&lt;p style=&quot;box-sizing: border-box; margin: 0px 0px 10px; font-family: inherit !important;&quot;&gt;Allows you to enjoy comfortable and accurate typing, even in dim lighting.&lt;/p&gt;\r\n&lt;/div&gt;', 12000, 'draft'),
-(18, 'What is Lorem Ipsum?', 1, 3, '58691971_2052429281725574_2186076798192713728_o.jpg', '&lt;h1 id=&quot;spnProductName&quot; class=&quot;product-title&quot; style=&quot;box-sizing: border-box; margin: 0px; font-size: 24px; font-family: Roboto; font-weight: 500; line-height: 1; color: #49494a; padding-bottom: 2px; letter-spacing: 0.25px; background-color: #ffffff;&quot;&gt;Epson EcoTank L3110 All-in-One Ink Tank Printer&lt;/h1&gt;', 26500, 'draft'),
-(19, 'What is Lorem Ipsum?', 1, 3, '58691971_2052429281725574_2186076798192713728_o.jpg', '&lt;h1 id=&quot;spnProductName&quot; class=&quot;product-title&quot; style=&quot;box-sizing: border-box; margin: 0px; font-size: 24px; font-family: Roboto; font-weight: 500; line-height: 1; color: #49494a; padding-bottom: 2px; letter-spacing: 0.25px; background-color: #ffffff;&quot;&gt;Epson EcoTank L3110 All-in-One Ink Tank Printer&lt;/h1&gt;', 26500, 'draft'),
-(20, 'Salary', 1, 3, '58691971_2052429281725574_2186076798192713728_o.jpg', '&lt;p&gt;ggggggggggggggggggg&lt;/p&gt;', 21222, 'publish'),
-(21, 'Salary', 1, 3, '58691971_2052429281725574_2186076798192713728_o.jpg', '&lt;p&gt;ggggggggggggggggggg&lt;/p&gt;', 21222, 'publish'),
-(22, 'What is Lorem Ipsum?', 1, 2, 'Class Diagram (1).png,genrate and print quotation Diagram.png,Brows Catgories Diagram.png,category deleted Diagram.png', '&lt;p&gt;eeeeeeeeeeeeeeeeee&lt;/p&gt;', 1111111111, 'draft');
+(43, 'ZOTAC GAMING GeForce RTX 2080 Ti AMP ZT-T20810D-10P Graphics Card', 13, 4, '617vr1SLb5L._SX425_.jpg', '&lt;p&gt;ZOTAC GAMING GeForce RTX 2080 Ti AMP ZT-T20810D-10P Graphics Card&lt;/p&gt;', 224900, 'publish'),
+(44, 'MSI Geforce GTX 1050TI Gaming X 4G Graphics Card, 4GB 912-V335-035', 13, 4, '2018-02-08-product-15.jpg', '&lt;div id=&quot;divProductDesc&quot; class=&quot;details-description&quot; style=&quot;box-sizing: border-box; color: #444444; font-size: 13px; margin-top: 5px; margin-bottom: 2px; font-family: Roboto, sans-serif;&quot;&gt;GeForce GTX graphics cards are the most advanced ever created. Discover unprecedented performance, power efficiency, and next-generation gaming experiences. Just like in games, the exclusive MSI TORX 2.0 Fan technology uses the power of teamwork to allow the TWIN FROZR VI to achieve new levels of cool.&lt;/div&gt;\r\n&lt;div id=&quot;divProductHighlights&quot; class=&quot;details-description no-margin&quot; style=&quot;box-sizing: border-box; color: #444444; font-size: 13px; font-family: Roboto, sans-serif; margin: 5px 0px !important 2px 0px !important;&quot;&gt;\r\n&lt;ul id=&quot;ulHighlights&quot; class=&quot;highlights text-left&quot; style=&quot;box-sizing: border-box; margin: 0px 0px 10px; list-style-position: initial; list-style-image: initial; padding: 0px 0px 0px 15px;&quot;&gt;\r\n&lt;li style=&quot;box-sizing: border-box; line-height: 18px;&quot;&gt;768 Units Cores&lt;/li&gt;\r\n&lt;li style=&quot;box-sizing: border-box; line-height: 18px;&quot;&gt;1493 MHz / 1379 MHz (OC Mode)&lt;/li&gt;\r\n&lt;li style=&quot;box-sizing: border-box; line-height: 18px;&quot;&gt;4GB GDDR5 (128-bit)&lt;/li&gt;\r\n&lt;li style=&quot;box-sizing: border-box; line-height: 18px;&quot;&gt;DisplayPort (Version 1.4) / HDMI 2.0b / DL-DVI-D&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;/div&gt;', 27900, 'publish'),
+(57, 'MSI Radeon RX 580 DirectX 12 RX 580 ARMOR 8G OC 8GB 256-Bit GDDR5 PCI Express x16 HDCP Ready CrossFireX Support Video Card', 13, 3, '14-137-118_R01.jpg', '&lt;p&gt;MSI Radeon RX 580 DirectX 12 RX 580 ARMOR 8G OC 8GB 256-Bit GDDR5 PCI Express x16 HDCP Ready CrossFireX Support Video Card&lt;/p&gt;', 38000, 'publish'),
+(58, 'AMD Ryzen 5 3600 Desktop Processor With Wraith Stealth Cooler', 8, 3, '1562490108-img-1213283-1540-8511-110919084841.jpg', '&lt;div id=&quot;divProductDesc&quot; class=&quot;details-description&quot; style=&quot;box-sizing: border-box; color: #444444; font-size: 13px; margin-top: 5px; margin-bottom: 2px; font-family: Roboto, sans-serif; background-color: #ffffff;&quot;&gt;AMD 3600: Serious Gaming. Fully Unlocked*.&lt;/div&gt;', 39500, 'publish'),
+(59, 'Gigabyte GA-A320M-S2H AMD Socket AM4 Motherboard', 10, 3, '2019010417452071-big-1540-8350-270719115701.jpg', '&lt;div id=&quot;divProductDesc&quot; class=&quot;details-description&quot; style=&quot;box-sizing: border-box; color: #444444; font-size: 13px; margin-top: 5px; margin-bottom: 2px; font-family: Roboto, sans-serif; background-color: #ffffff;&quot;&gt;&lt;span style=&quot;color: #444444; font-family: Roboto, sans-serif;&quot;&gt;&lt;span style=&quot;font-size: 13px;&quot;&gt;Gigabyte GA-A320M-S2H AMD Socket AM4 Motherboard&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;', 11900, 'publish'),
+(60, 'Intel Core i3-9100F Desktop Processor Without Processor Graphics LGA1151 9th Generation', 8, 2, '1557934564-1469520-1540-8363-020819010222-1540-8393-080819082215.jpg', '&lt;div id=&quot;divProductDesc&quot; class=&quot;details-description&quot; style=&quot;box-sizing: border-box; color: #444444; font-size: 13px; margin-top: 5px; margin-bottom: 2px; font-family: Roboto, sans-serif; background-color: #ffffff;&quot;&gt;9th Gen Intel Core i3-9100f desktop processor without processor graphics. Features Intel Turbo Boost Technology 2.0 and offers mainstream performance for exceptional overall productivity. Thermal solution included in the box. Only compatible with Intel 300 Series chipset based motherboards. 65W.&lt;/div&gt;\r\n&lt;div id=&quot;divProductHighlights&quot; class=&quot;details-description no-margin&quot; style=&quot;box-sizing: border-box; color: #444444; font-size: 13px; font-family: Roboto, sans-serif; background-color: #ffffff; margin: 5px 0px !important 2px 0px !important;&quot;&gt;\r\n&lt;ul id=&quot;ulHighlights&quot; class=&quot;highlights text-left&quot; style=&quot;box-sizing: border-box; margin: 0px 0px 10px; list-style-position: initial; list-style-image: initial; padding: 0px 0px 0px 15px;&quot;&gt;\r\n&lt;li style=&quot;box-sizing: border-box; line-height: 18px;&quot;&gt;# of Cores 4 # of Threads 4&lt;/li&gt;\r\n&lt;li style=&quot;box-sizing: border-box; line-height: 18px;&quot;&gt;Processor Base Frequency 3.60 GHz | Max Turbo Frequency 4.20 GHz&lt;/li&gt;\r\n&lt;li style=&quot;box-sizing: border-box; line-height: 18px;&quot;&gt;6 MB SmartCache&lt;/li&gt;\r\n&lt;li style=&quot;box-sizing: border-box; line-height: 18px;&quot;&gt;TDP 65 W&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;/div&gt;', 21300, 'publish');
 
 -- --------------------------------------------------------
 
@@ -102,7 +109,40 @@ CREATE TABLE `manufacturer` (
 
 INSERT INTO `manufacturer` (`id`, `name`) VALUES
 (2, 'Intel'),
-(3, 'AMD');
+(3, 'AMD'),
+(4, 'Nvidia GeForce'),
+(5, 'Seagate'),
+(6, 'Gigabyte'),
+(7, 'Asus');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report`
+--
+
+CREATE TABLE `report` (
+  `report_id` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `customer_name` varchar(255) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `amount` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `report`
+--
+
+INSERT INTO `report` (`report_id`, `date`, `customer_name`, `item_id`, `qty`, `amount`) VALUES
+(63, '0000-00-00 00:00:00', 'bilal afzaal', 60, 1, 21300),
+(64, '0000-00-00 00:00:00', 'bilal afzaal', 59, 5, 11900),
+(65, '0000-00-00 00:00:00', 'bilal afzaal', 44, 1, 27900),
+(66, '2019-09-25 19:00:00', 'admin', 58, 1, 39500),
+(67, '2019-09-18 19:00:00', 'bilalafzaal', 58, 1, 39500),
+(68, '2019-09-18 19:00:00', 'bilalafzaal', 44, 1, 27900),
+(69, '2019-09-26 19:00:00', 'bilal afzaal', 58, 1, 39500),
+(70, '2019-09-26 19:00:00', 'bilal afzaal', 44, 1, 27900);
 
 -- --------------------------------------------------------
 
@@ -147,6 +187,12 @@ ALTER TABLE `manufacturer`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `report`
+--
+ALTER TABLE `report`
+  ADD PRIMARY KEY (`report_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -160,7 +206,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `image`
@@ -172,13 +218,19 @@ ALTER TABLE `image`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `manufacturer`
 --
 ALTER TABLE `manufacturer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `report`
+--
+ALTER TABLE `report`
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -194,7 +246,6 @@ ALTER TABLE `users`
 -- Constraints for table `items`
 --
 ALTER TABLE `items`
-  ADD CONSTRAINT `items_ibfk_1` FOREIGN KEY (`cat_id`) REFERENCES `categories` (`cat_id`),
   ADD CONSTRAINT `items_ibfk_2` FOREIGN KEY (`man_id`) REFERENCES `manufacturer` (`id`);
 COMMIT;
 

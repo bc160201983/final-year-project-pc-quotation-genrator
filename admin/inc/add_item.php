@@ -2,6 +2,15 @@
 
 
 <?php
+
+
+
+session_start();
+
+if (!$_SESSION['user_id']) {
+  redirect_to("login.php");
+}
+
 $title = "";
 $cat_id = "";
 $brand_id = "";

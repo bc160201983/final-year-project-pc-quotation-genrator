@@ -1,5 +1,11 @@
 
 <?php
+
+session_start();
+
+if (!$_SESSION['user_id']) {
+  redirect_to("login.php");
+}
 	if (isset($_GET)) {
 		$id = escape_string($_GET['edit']);
 		//echo $id;

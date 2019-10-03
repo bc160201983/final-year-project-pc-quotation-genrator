@@ -1,6 +1,17 @@
-<?php include 'inc/header.php'; ?>
+<?php include 'inc/header.php'; 
+
+session_start();
+
+if (!$_SESSION['user_id']) {
+  redirect_to("login.php");
+}
+
+
+?>
 
 <body id="page-top">
+
+
 
 <!-- navbar top -->
 <?php include 'inc/navbar-top.php'; ?>

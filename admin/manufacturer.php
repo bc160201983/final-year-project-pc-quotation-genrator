@@ -1,7 +1,11 @@
 <?php include 'inc/header.php'; ?>
 
 <?php
+session_start();
 
+if (!$_SESSION['user_id']) {
+  redirect_to("login.php");
+}
 //$message[] = "";
 
 if (isset($_POST['add-brand'])) {

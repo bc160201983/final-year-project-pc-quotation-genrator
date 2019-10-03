@@ -3,7 +3,11 @@
 
 <?php
 
+session_start();
 
+if (!$_SESSION['user_id']) {
+  redirect_to("login.php");
+}
 if (isset($_GET['id'])) {
   $item_edit_id = escape_string(trim($_GET['id']));
 }
@@ -25,7 +29,7 @@ if (isset($_POST['update-submit'])) {
       $title = escape_string($_POST['title']);
       $cat_id = escape_string($_POST['item_cat']);
       $brand_id = escape_string($_POST['item_brand']);
-      $description = htmlspecialchars(trim($_POST['item_description']));
+      $description = escape_string(htmlspecialchars($_POST['item_description']));
       $price = escape_string($_POST['item_price']);
       $status = escape_string($_POST['status']);
       $image_names = $_FILES['images']['name'];

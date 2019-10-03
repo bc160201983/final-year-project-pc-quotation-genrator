@@ -1,4 +1,12 @@
-<?php include 'inc/header.php'; ?>
+<?php 
+include 'inc/header.php'; 
+session_start();
+
+if (!$_SESSION['user_id']) {
+  redirect_to("login.php");
+}
+
+?>
 
 <body id="page-top">
 
@@ -90,7 +98,7 @@
                 ?>
                 
               </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
+              <a class="card-footer text-white clearfix small z-1" href="manufacturer.php">
                 <span class="float-left">View Details</span>
                 <span class="float-right">
                   <i class="fas fa-angle-right"></i>
@@ -104,9 +112,9 @@
                 <div class="card-body-icon">
                   <i class="fas fa-fw fa-life-ring"></i>
                 </div>
-                <div class="mr-5">13 New Tickets!</div>
+                <div class="mr-5">View Reports</div>
               </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
+              <a class="card-footer text-white clearfix small z-1" href="reports.php">
                 <span class="float-left">View Details</span>
                 <span class="float-right">
                   <i class="fas fa-angle-right"></i>
